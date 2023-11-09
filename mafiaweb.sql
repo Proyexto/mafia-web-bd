@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2023 a las 01:44:19
+-- Tiempo de generación: 09-11-2023 a las 02:47:59
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -27,6 +27,10 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addRooms` (IN `roomId` VARCHAR(20), IN `statusR` VARCHAR(20))   BEGIN 
+INSERT INTO room VALUES (roomId, 1, statusR);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addUser` (IN `userName` VARCHAR(12), IN `userEmail` VARCHAR(60), IN `pasword` VARCHAR(60), IN `id_Img` INT(11))   BEGIN
 	INSERT INTO users
 	VALUES (NULL, userName, userEmail, pasword, id_Img, NULL);
@@ -63,6 +67,27 @@ INSERT INTO `image` (`id`, `URL`, `width`, `height`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `room`
+--
+
+CREATE TABLE `room` (
+  `id` varchar(60) NOT NULL,
+  `cant_us` int(10) NOT NULL,
+  `status` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Disparadores `room`
+--
+DELIMITER $$
+CREATE TRIGGER `delRoom` AFTER UPDATE ON `room` FOR EACH ROW DELETE FROM room 
+WHERE cant_us = 0
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -91,6 +116,12 @@ INSERT INTO `users` (`id_user`, `email`, `username`, `pass`, `id_img`, `del_at`)
 -- Indices de la tabla `image`
 --
 ALTER TABLE `image`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `room`
+--
+ALTER TABLE `room`
   ADD PRIMARY KEY (`id`);
 
 --
