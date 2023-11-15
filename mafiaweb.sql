@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2023 a las 02:47:59
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 15-11-2023 a las 02:07:10
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,6 +47,19 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `chat_room`
+--
+
+CREATE TABLE `chat_room` (
+  `id` int(255) NOT NULL,
+  `id_room` varchar(30) NOT NULL,
+  `id_user` bigint(20) NOT NULL,
+  `msg` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `image`
 --
 
@@ -75,6 +88,13 @@ CREATE TABLE `room` (
   `cant_us` int(10) NOT NULL,
   `status` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `room`
+--
+
+INSERT INTO `room` (`id`, `cant_us`, `status`) VALUES
+('jbjdhsiofhss', 1, 'ABIERTA');
 
 --
 -- Disparadores `room`
@@ -106,11 +126,20 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `email`, `username`, `pass`, `id_img`, `del_at`) VALUES
 (1, 'pene', 'vinagre', '*9E735C258', 1, NULL),
-(2, 'pene', 'abuelo', '*9E735C258', 3, NULL);
+(2, 'pene', 'abuelo', '*9E735C258', 3, NULL),
+(3, 'Juancito', 'juancitomail', 'holajuan123', 4, '2023-11-14');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `chat_room`
+--
+ALTER TABLE `chat_room`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_room` (`id_room`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indices de la tabla `image`
@@ -136,6 +165,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `chat_room`
+--
+ALTER TABLE `chat_room`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `image`
 --
 ALTER TABLE `image`
@@ -145,11 +180,18 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `chat_room`
+--
+ALTER TABLE `chat_room`
+  ADD CONSTRAINT `chat_room_ibfk_1` FOREIGN KEY (`id_room`) REFERENCES `room` (`id`),
+  ADD CONSTRAINT `chat_room_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
 -- Filtros para la tabla `image`
